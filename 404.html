@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | KASHOMBA ELECTRICAL SOLUTION</title>
+    <meta name="description" content="Page not found. Redirecting you back to our homepage.">
+    <meta name="author" content="MATO MEDIA TZ">
+    <meta name="robots" content="noindex, follow">
+    <link rel="icon" type="image/png" href="images/logo/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .error-404 {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px;
+            background: #f8f8f8;
+        }
+        .error-404 h1 {
+            font-size: 120px;
+            color: #DAA520;
+            margin-bottom: 20px;
+            text-shadow: 4px 4px 0px #0a6c6c;
+        }
+        .error-404 h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .error-404 p {
+            margin-bottom: 30px;
+            color: #666;
+        }
+        .error-404 .btn-home {
+            display: inline-block;
+            background: #0a6c6c;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-right: 15px;
+        }
+        .error-404 .btn-home:hover {
+            background: #DAA520;
+            color: #000;
+        }
+        .redirect-message {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .countdown {
+            color: #DAA520;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        @media (max-width: 768px) {
+            .error-404 h1 { font-size: 80px; }
+            .error-404 h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="logo">
+            <img src="images/logo/logo.png" alt="Kashomba Electrical Logo">
+            <div><h1>KASHOMBA <span>ELECTRICAL SOLUTION</span></h1></div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="our-team-at-work.html">Our Team</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+    </div>
+</header>
+
+<section class="error-404">
+    <div class="container">
+        <h1>404</h1>
+        <h2>Oops! Page Not Found</h2>
+        <p>The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+        <a href="index.html" class="btn-home"><i class="fas fa-home"></i> Back to Homepage</a>
+        <div class="redirect-message">
+            <i class="fas fa-hourglass-half"></i> Redirecting to <a href="index.html">Homepage</a> in <span class="countdown" id="countdown">5</span> seconds...
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col"><h3>KASHOMBA ELECTRICAL</h3><p>Your electrical solutions with reliability and security.</p><div class="social-links"><a href="https://facebook.com/kashomba_electrical_solution" target="_blank"><i class="fab fa-facebook"></i></a><a href="https://instagram.com/kashomba_electrical_solution" target="_blank"><i class="fab fa-instagram"></i></a><a href="https://twitter.com/kashomba_electrical_solution" target="_blank"><i class="fab fa-twitter"></i></a><a href="https://wa.me/255763937615" target="_blank"><i class="fab fa-whatsapp"></i></a></div></div>
+            <div class="footer-col"><h3>Quick Links</h3><ul><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="booking.html">Booking</a></li></ul></div>
+            <div class="footer-col"><h3>Contact Us</h3><p><i class="fas fa-phone"></i> <a href="tel:+255763937615">+255 763 937 615</a></p><p><i class="fas fa-envelope"></i> <a href="mailto:Kashombaelectrical@gmail.com">Kashombaelectrical@gmail.com</a></p><p><i class="fas fa-map-marker-alt"></i> Dar es Salaam, Goba Njia NNE</p></div>
+            <div class="footer-col"><h3>Working Hours</h3><p>Monday - Friday: 8:00 - 18:00</p><p>Saturday: 9:00 - 15:00</p><p>Sunday: By appointment</p></div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 KASHOMBA ELECTRICAL SOLUTION. All rights reserved.</p>
+            <p class="developed-by"><a href="https://instagram.com/matomediatz" target="_blank" class="matolink">Developed by <span class="mato-glow">MATO MEDIA TZ</span></a></p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script>
+    // Countdown timer to redirect to homepage
+    let seconds = 5;
+    const countdownElement = document.getElementById('countdown');
+    
+    const countdownInterval = setInterval(function() {
+        seconds--;
+        if (countdownElement) {
+            countdownElement.textContent = seconds;
+        }
+        
+        if (seconds <= 0) {
+            clearInterval(countdownInterval);
+            window.location.href = 'index.html';
+        }
+    }, 1000);
+</script>
+</body>
+</html>
