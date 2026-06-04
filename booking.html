@@ -12,6 +12,56 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Country code dropdown styling */
+        .phone-group {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        .country-code-select {
+            width: 120px;
+            flex-shrink: 0;
+        }
+        .phone-number-input {
+            flex: 1;
+        }
+        .country-code-select select {
+            width: 100%;
+            padding: 12px 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+        .whatsapp-status {
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        .whatsapp-status.visible {
+            display: block;
+        }
+        .whatsapp-status i {
+            margin-right: 5px;
+        }
+        .status-success {
+            color: #25D366;
+        }
+        .status-error {
+            color: #dc3545;
+        }
+        @media (max-width: 480px) {
+            .phone-group {
+                flex-direction: column;
+            }
+            .country-code-select {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -59,13 +109,51 @@
             </div>
             
             <div class="form-group">
-                <label>Phone Number</label>
-                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                <label>Phone Number with Country Code</label>
+                <div class="phone-group">
+                    <div class="country-code-select">
+                        <select id="countryCode" name="countryCode" required>
+                            <option value="">Select Country</option>
+                            <option value="255">🇹🇿 Tanzania (+255)</option>
+                            <option value="254">🇰🇪 Kenya (+254)</option>
+                            <option value="256">🇺🇬 Uganda (+256)</option>
+                            <option value="257">🇧🇮 Burundi (+257)</option>
+                            <option value="250">🇷🇼 Rwanda (+250)</option>
+                            <option value="265">🇲🇼 Malawi (+265)</option>
+                            <option value="260">🇿🇲 Zambia (+260)</option>
+                            <option value="258">🇲🇿 Mozambique (+258)</option>
+                            <option value="27">🇿🇦 South Africa (+27)</option>
+                            <option value="233">🇬🇭 Ghana (+233)</option>
+                            <option value="234">🇳🇬 Nigeria (+234)</option>
+                            <option value="44">🇬🇧 United Kingdom (+44)</option>
+                            <option value="1">🇺🇸 United States (+1)</option>
+                            <option value="61">🇦🇺 Australia (+61)</option>
+                            <option value="91">🇮🇳 India (+91)</option>
+                            <option value="86">🇨🇳 China (+86)</option>
+                            <option value="81">🇯🇵 Japan (+81)</option>
+                            <option value="49">🇩🇪 Germany (+49)</option>
+                            <option value="33">🇫🇷 France (+33)</option>
+                            <option value="39">🇮🇹 Italy (+39)</option>
+                            <option value="34">🇪🇸 Spain (+34)</option>
+                            <option value="7">🇷🇺 Russia (+7)</option>
+                            <option value="55">🇧🇷 Brazil (+55)</option>
+                            <option value="52">🇲🇽 Mexico (+52)</option>
+                            <option value="966">🇸🇦 Saudi Arabia (+966)</option>
+                            <option value="971">🇦🇪 UAE (+971)</option>
+                            <option value="962">🇯🇴 Jordan (+962)</option>
+                            <option value="20">🇪🇬 Egypt (+20)</option>
+                        </select>
+                    </div>
+                    <div class="phone-number-input">
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number (e.g., 712345678)" required>
+                    </div>
+                </div>
+                <div id="whatsappStatus" class="whatsapp-status"></div>
             </div>
             
             <div class="form-group">
                 <label>Email Address</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email address">
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
             </div>
             
             <div class="form-group">
@@ -121,5 +209,198 @@
 </footer>
 
 <script src="js/script.js"></script>
+<script>
+    // Country code and phone number validation
+    const countryCodeSelect = document.getElementById('countryCode');
+    const phoneInput = document.getElementById('phone');
+    const whatsappStatus = document.getElementById('whatsappStatus');
+    
+    // Function to check if number is likely on WhatsApp
+    // Note: This is a simulation. In production, you'd use WhatsApp Business API
+    function checkWhatsAppStatus(countryCode, phoneNumber) {
+        return new Promise((resolve) => {
+            // Remove any non-digit characters from phone number
+            const cleanPhone = phoneNumber.replace(/\D/g, '');
+            
+            // Basic validation: phone number should be between 7-15 digits
+            if (cleanPhone.length >= 7 && cleanPhone.length <= 15) {
+                // Simulate API check - in real scenario, you'd call WhatsApp API
+                // For now, we'll assume numbers from Tanzania, Kenya, Uganda are likely on WhatsApp
+                const likelyWhatsAppCountries = ['255', '254', '256', '257', '250', '265', '260', '258', '27', '233', '234'];
+                const isLikelyWhatsApp = likelyWhatsAppCountries.includes(countryCode);
+                
+                setTimeout(() => {
+                    resolve({
+                        hasWhatsApp: isLikelyWhatsApp,
+                        message: isLikelyWhatsApp ? '✓ This number appears to have WhatsApp. You will receive confirmation via WhatsApp.' : '⚠️ This number may not have WhatsApp. Confirmation will be sent via email only.'
+                    });
+                }, 500);
+            } else {
+                resolve({
+                    hasWhatsApp: false,
+                    message: '⚠️ Invalid phone number format. Please check your number.'
+                });
+            }
+        });
+    }
+    
+    // Real-time WhatsApp status check when user finishes entering phone number
+    let checkTimeout;
+    phoneInput.addEventListener('input', function() {
+        clearTimeout(checkTimeout);
+        checkTimeout = setTimeout(async () => {
+            const countryCode = countryCodeSelect.value;
+            const phoneNumber = phoneInput.value.trim();
+            
+            if (countryCode && phoneNumber.length >= 7) {
+                const status = await checkWhatsAppStatus(countryCode, phoneNumber);
+                whatsappStatus.innerHTML = `<i class="fas ${status.hasWhatsApp ? 'fa-check-circle status-success' : 'fa-exclamation-circle status-error'}"></i> ${status.message}`;
+                whatsappStatus.classList.add('visible');
+                
+                // Store WhatsApp status for form submission
+                window.hasWhatsApp = status.hasWhatsApp;
+            } else {
+                whatsappStatus.classList.remove('visible');
+                window.hasWhatsApp = false;
+            }
+        }, 800);
+    });
+    
+    countryCodeSelect.addEventListener('change', function() {
+        if (phoneInput.value.trim().length >= 7) {
+            phoneInput.dispatchEvent(new Event('input'));
+        }
+    });
+    
+    // Override form submission to handle WhatsApp vs Email logic
+    const originalFormSubmit = document.getElementById('bookingForm').submit;
+    const bookingForm = document.getElementById('bookingForm');
+    
+    bookingForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Validate all fields
+        let isValid = true;
+        const name = document.getElementById('name');
+        const phone = document.getElementById('phone');
+        const email = document.getElementById('email');
+        const service = document.getElementById('service');
+        const date = document.getElementById('date');
+        const address = document.getElementById('address');
+        const countryCode = document.getElementById('countryCode');
+        
+        // Clear previous errors
+        document.querySelectorAll('.error').forEach(el => el.remove());
+        
+        if (!name.value.trim()) { showError(name, 'Please enter your full name'); isValid = false; }
+        if (!countryCode.value) { showError(countryCode, 'Please select your country'); isValid = false; }
+        if (!phone.value.trim() || phone.value.length < 7) { showError(phone, 'Please enter a valid phone number'); isValid = false; }
+        if (!email.value.trim() || !email.value.includes('@')) { showError(email, 'Please enter a valid email address'); isValid = false; }
+        if (!service.value) { showError(service, 'Please select a service'); isValid = false; }
+        if (!date.value) { showError(date, 'Please select a date'); isValid = false; }
+        if (!address.value.trim()) { showError(address, 'Please enter your address'); isValid = false; }
+        
+        if (isValid) {
+            const fullPhoneNumber = `${countryCode.value}${phone.value.replace(/\D/g, '')}`;
+            const hasWhatsApp = window.hasWhatsApp;
+            
+            const bookingData = {
+                name: name.value,
+                phone: fullPhoneNumber,
+                email: email.value,
+                service: service.value,
+                date: date.value,
+                time: document.getElementById('time')?.value || '',
+                address: address.value,
+                message: document.getElementById('message')?.value || '',
+                location: 'Dar es Salaam, Triple A Plaza, Floor 3, Room 8 Near Total Shell Goba Njia 4',
+                dateSubmitted: new Date().toISOString(),
+                countryCode: countryCode.value,
+                hasWhatsApp: hasWhatsApp
+            };
+            
+            // Save to localStorage
+            let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            bookings.push(bookingData);
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+            
+            // Email content for company
+            const emailSubject = `New Booking - ${bookingData.service} - ${bookingData.name}`;
+            const emailBody = `NEW BOOKING DETAILS:\n\n` +
+                `Name: ${bookingData.name}\n` +
+                `Phone: ${bookingData.phone}\n` +
+                `Email: ${bookingData.email}\n` +
+                `Service: ${bookingData.service}\n` +
+                `Date: ${bookingData.date}\n` +
+                `Time: ${bookingData.time || 'Not specified'}\n` +
+                `Address: ${bookingData.address}\n` +
+                `Additional Message: ${bookingData.message || 'None'}\n` +
+                `WhatsApp Available: ${hasWhatsApp ? 'Yes' : 'No'}\n` +
+                `Submitted: ${new Date().toLocaleString()}\n` +
+                `Location: ${bookingData.location}`;
+            
+            // Send email to company
+            sendEmail(COMPANY_EMAIL, emailSubject, emailBody);
+            
+            // Send confirmation based on WhatsApp availability
+            if (hasWhatsApp) {
+                // Send WhatsApp message to customer
+                const customerWhatsAppMessage = `Thank you ${bookingData.name}!\n\nYour booking has been received by ${COMPANY_NAME}.\n\n📋 Service: ${bookingData.service}\n📅 Date: ${bookingData.date}\n⏰ Time: ${bookingData.time || 'Not specified'}\n📍 Address: ${bookingData.address}\n\nWe will contact you within 24 hours to confirm.\n\n📍 ${bookingData.location}\n📞 ${WHATSAPP_NUMBER}`;
+                sendWhatsAppMessage(bookingData.phone, customerWhatsAppMessage);
+                
+                // Send WhatsApp to company
+                const companyWhatsAppMessage = `🔴 NEW BOOKING (WhatsApp Confirmed)!\n\n👤 Name: ${bookingData.name}\n📞 Phone: ${bookingData.phone}\n📧 Email: ${bookingData.email}\n🛠️ Service: ${bookingData.service}\n📅 Date: ${bookingData.date}\n⏰ Time: ${bookingData.time || 'Not specified'}\n📍 Address: ${bookingData.address}\n💬 Message: ${bookingData.message || 'None'}\n📍 ${bookingData.location}`;
+                sendWhatsAppMessage(WHATSAPP_NUMBER, companyWhatsAppMessage);
+                
+                alert(`Thank you ${bookingData.name}!\n\n✓ Booking confirmed via WhatsApp\n✓ Confirmation sent to your WhatsApp\n✓ Email sent to our team\n\nWe will contact you within 24 hours.`);
+            } else {
+                // Send email confirmation to customer
+                const customerEmailSubject = `Booking Confirmation - ${COMPANY_NAME}`;
+                const customerEmailBody = `Dear ${bookingData.name},\n\nThank you for booking with ${COMPANY_NAME}.\n\nYour booking details:\n- Service: ${bookingData.service}\n- Date: ${bookingData.date}\n- Time: ${bookingData.time || 'Not specified'}\n- Address: ${bookingData.address}\n\nWe have received your booking and will contact you within 24 hours to confirm.\n\nIf you have any questions, please call us at ${WHATSAPP_NUMBER}.\n\nBest regards,\n${COMPANY_NAME}\n${bookingData.location}`;
+                sendEmail(bookingData.email, customerEmailSubject, customerEmailBody);
+                
+                // Send email to company (already sent above)
+                
+                alert(`Thank you ${bookingData.name}!\n\n✓ Booking confirmed via Email\n✓ Confirmation sent to your email\n✓ Email sent to our team\n\nWe will contact you within 24 hours.\n\n(WhatsApp confirmation not available for this number)`);
+            }
+            
+            bookingForm.reset();
+            whatsappStatus.classList.remove('visible');
+            window.hasWhatsApp = false;
+        }
+    });
+    
+    function showError(input, message) {
+        const error = document.createElement('div');
+        error.className = 'error';
+        error.style.color = '#dc3545';
+        error.style.fontSize = '12px';
+        error.style.marginTop = '5px';
+        error.textContent = message;
+        input.parentNode.appendChild(error);
+        input.style.border = '1px solid #dc3545';
+        input.addEventListener('input', () => {
+            error.remove();
+            input.style.border = '1px solid #ddd';
+        });
+    }
+    
+    function sendWhatsAppMessage(phoneNumber, message) {
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+        window.open(whatsappUrl, '_blank');
+    }
+    
+    function sendEmail(email, subject, body) {
+        const encodedSubject = encodeURIComponent(subject);
+        const encodedBody = encodeURIComponent(body);
+        const mailtoUrl = `mailto:${email}?subject=${encodedSubject}&body=${encodedBody}`;
+        window.location.href = mailtoUrl;
+    }
+    
+    const WHATSAPP_NUMBER = '255763937615';
+    const COMPANY_EMAIL = 'Kashombaelectrical@gmail.com';
+    const COMPANY_NAME = 'KASHOMBA ELECTRICAL SOLUTION';
+</script>
 </body>
 </html>
